@@ -1,0 +1,10 @@
+.header_nav_menuitem {
+  display: inline-block;
+  margin-right: 20px;
+  height: 70px;
+  line-height: 70px; /* height와 같은 높이로 설정하여 메뉴들을 수직방향으로 가운데 정렬 */
+}
+
+.header_nav_menuitem:last-child {
+  margin-right: 10px;
+}

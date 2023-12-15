@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.enjoytrip.board.model.mapper.BoardMapper">
+
+	<resultMap type="boardDto" id="article">
+		<result column="article_no" property="articleNo" />
+		<result column="user_id" property="userId" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="attraction_id" property="attractionId" />
+		<result column="register_time" property="registerTime" />
+		<result column="is_deleted" property="isDeleted" />
+		<result column="name" property="name"/>
+	</resultMap>
+
+	<insert id="registerArticle" parameterType="boardDto">
+		insert into board (user_id, subject, content, attraction_id,
+		register_time, is_deleted)
+		values (#{userId}, #{subject},
+		#{content}, #{attractionId}, now(), #{isDeleted})
+		<selectKey resultType="int" keyProperty="articleNo"
+			order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<select id="viewArticle" parameterType="int">
+		select b.article_no,
+		b.user_id, b.subject, b.attraction_id, b.content, b.attraction_id, b.register_time,
+		b.is_deleted, m.name
+		from board b, members m
+		where b.user_id = m.id
+		and
+		b.article_no = #{articleNo}
+		and b.is_deleted = 0
+	</select>
+
+	<select id="listArticle" parameterType="map" resultMap="article">
+		select b.article_no, b.attraction_id, b.user_id, b.subject, b.content, b.register_time, m.name
+		from board b, members m
+		where b.user_id = m.id
+		and b.is_deleted = 0
+		order by b.article_no desc;
+	</select>
+
+	<select id="searchListBySubject" parameterType="string" resultMap="article">
+		select b.article_no, b.attraction_id, b.user_id, b.subject, b.content, b.register_time, m.name
+		from board b, members m
+		where b.subject like concat('%', #{query}, '%')
+		and b.is_deleted = 0
+		order by b.article_no desc;
+	</select>
+
+	<update id="modifyArticle" parameterType="boardDto">
+		update board
+		set subject = #{subject}, content = #{content}
+		where article_no = #{articleNo}
+	</update>
+
+	<update id="deleteArticle" parameterType="int">
+		update board
+		set
+		is_deleted = 1
+		where article_no = #{articleNo}
+	</update>
+
+	<insert id="updateHit" parameterType="int">
+		insert into hits
+		(article_no) values (#{articleno})
+	</insert>
+
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "com.ssafy.enjoytrip.plan.model.mapper.TripPlanMapper">
+	<insert id="createPlan" parameterType="tripPlanDto">
+		insert into trip_plans (user_id, title, plan)
+		values (#{userId}, #{title}, '[]')
+		<selectKey resultType="int" keyProperty="planNo" order="AFTER">
+			select last_insert_id() from dual
+		</selectKey>
+	</insert>
+	
+	<sql id="getPlan">
+		select plan_no, user_id, title, plan, register_time, edit_time
+		from trip_plans
+	</sql>
+	<sql id="sortPlan">
+		order by register_time desc
+	</sql>
+	
+	<select id="listAllPlans" resultType="tripPlanDto">
+		<include refid="getPlan"></include>
+		<include refid="sortPlan"></include>
+	</select>
+	<select id="listPlans" parameterType="string" resultType="tripPlanDto">
+		<include refid="getPlan"></include>
+		where user_id = #{userId}
+		<include refid="sortPlan"></include>
+	</select>
+	
+	<select id="retrievePlan" parameterType="int" resultType="tripPlanDto">
+		<include refid="getPlan"></include>
+		where plan_no = #{planNo}
+	</select>
+	
+	<sql id="updateTimestamp">
+		edit_time = current_timestamp
+	</sql>
+
+	<update id="setPlan" parameterType="tripPlanDto">
+		update trip_plans
+		<set>
+			<if test="title != null">title = #{title},</if>
+			<if test="plan != null">plan = #{plan},</if>
+			<include refid="updateTimestamp"></include>
+		</set>
+		where plan_no = #{planNo}
+	</update>
+	
+	<update id="append">
+		update trip_plans
+		set plan = json_array_append(plan, '$', #{contentId}),
+		<include refid="updateTimestamp"></include>
+		where plan_no = #{planNo}
+	</update>
+	<update id="insertAt">
+		update trip_plans
+		set plan = json_array_insert(plan, concat('$[', #{path}, ']'), #{contentId}),
+		<include refid="updateTimestamp"></include>
+		where plan_no = #{planNo}
+	</update>
+	<update id="removeAt">
+		update trip_plans
+		set plan = json_remove(plan, concat('$[', #{path}, ']')),
+		<include refid="updateTimestamp"></include>
+		where plan_no = #{planNo}
+	</update>
+	
+	<delete id="removePlan">
+		delete from trip_plans
+		where plan_no = #{planNo}
+	</delete>
+</mapper>

@@ -1,0 +1,200 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.ssafy.enjoytrip.member.model.mapper.MemberMapper",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_109727380 { 
+   	label=ssafy
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1464439382 { 
+   	label=enjoytrip
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   MainController1076287169[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MainController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   service: MemberService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># doGet(req: HttpServletRequest, resp: HttpServletResponse)</TD></TR>
+<TR><TD ALIGN="LEFT" ># doPost(req: HttpServletRequest, resp: HttpServletResponse)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ index(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- login(request: HttpServletRequest, response: HttpServletResponse)</TD></TR>
+<TR><TD ALIGN="LEFT" >- logout(request: HttpServletRequest, response: HttpServletResponse)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MemberController1369627819[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MemberController</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   service: MemberService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ register(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ register(session: HttpSession): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MemberDaoImpl1433971618[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MemberDaoImpl</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   passwordEncoder: PasswordEncoder [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deleteMember(userId: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(userId: String, userPass: String): MemberDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ registerMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ select(userId: String): MemberDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectAll(): List&lt;MemberDto&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MemberMapper1445942795[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(I)MemberMapper</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deleteMember(userId: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(userId: String, userPass: String): MemberDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ registerMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ select(userId: String): MemberDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ selectAll(): List&lt;MemberDto&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#F1E5FD"
+];
+
+MemberServiceImpl727953023[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MemberServiceImpl</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   encoder: PasswordEncoder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   mapper: MemberMapper [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ deleteMember(userId: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ list(): List&lt;MemberDto&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ login(userId: String, userPass: String): MemberDto</TD></TR>
+<TR><TD ALIGN="LEFT" >+ modifyMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ registerMember(memberDto: MemberDto)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ remove(id: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ select(userId: String): MemberDto</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+MainController1076287169 -> MemberServiceImpl727953023[label="service
+[0..1]", arrowhead=none];
+MemberController1369627819 -> MemberServiceImpl727953023[label="service
+[0..1]", arrowhead=none];
+MemberMapper1445942795 -> MemberDaoImpl1433971618[arrowhead=none, arrowtail=empty, dir=both];
+MemberServiceImpl727953023 -> MemberMapper1445942795[label="mapper
+[0..1]"];
+    
+}
+@enduml
